@@ -1,0 +1,243 @@
+
+# Final Capstone Project
+
+## Challenge 1: SQL Injection
+
+This repository documents the successful identification and exploitation of a **SQL Injection vulnerability** within an authorized lab environment as part of the **Cisco Networking Academy Ethical Hacking Final Capstone Project**.
+
+The objective of this challenge was to enumerate user account information from a vulnerable web application, recover and crack Bob Smith’s account credentials, and use those credentials to access a protected system and retrieve the Challenge 1 code.
+
+All actions were conducted **strictly within scope**, under an approved **Pentesting Agreement**, and for **educational purposes only**.
+
+---
+
+## Objectives
+
+The objectives of this challenge were to:
+
+* Identify and exploit a SQL Injection vulnerability
+* Enumerate database information and user credentials
+* Crack a recovered password hash
+* Use valid credentials to access a remote system
+* Locate and retrieve the Challenge 1 code
+* Propose effective SQL Injection remediation techniques
+
+---
+
+## Lab Environment
+
+* **Attacker Machine:** Kali Linux
+* **Vulnerable Web Application:** DVWA
+* **DVWA Server IP:** 10.5.5.12
+* **Target System IP:** 192.168.0.10
+* **Database Type:** MySQL
+* **Attack Type:** SQL Injection (Union-based)
+
+---
+
+## Tools Used
+
+* Web Browser
+* DVWA (Damn Vulnerable Web Application)
+* SQL Injection payloads (manual input)
+* Password hash cracking tool
+* SSH
+* Nmap
+
+---
+
+## Methodology & Results
+
+### Step 1: Initial Setup and DVWA Configuration
+
+The DVWA web application was accessed via a browser at:
+
+```
+http://10.5.5.12
+```
+
+The application was accessed using the default credentials:
+
+* **Username:** admin
+* **Password:** password
+
+**Screenshot Placeholder:**
+
+```markdown
+![DVWA Login Page](images/dvwa_login.png)
+```
+
+After logging in, the DVWA security level was configured to **Low**:
+
+* Navigate to **DVWA Security**
+* Select **Low**
+* Click **Submit**
+
+At this security level, input sanitization is disabled, making the application vulnerable to SQL Injection.
+
+**Screenshot Placeholder:**
+
+```markdown
+![DVWA Security Level Low](images/dvwa_security_low.png)
+```
+
+---
+
+### Step 2: SQL Injection and Database Enumeration
+
+The **SQL Injection** module was selected from the DVWA menu. The application presented a vulnerable input field labeled **User ID**.
+
+**Screenshot Placeholder:**
+
+```markdown
+![SQL Injection Input Form](images/sql_injection_form.png)
+```
+
+Initial testing confirmed the presence of a SQL Injection vulnerability when crafted input altered application behavior.
+
+**Screenshot Placeholders:**
+
+```markdown
+![SQLi Vulnerability Confirmation](images/sqli_test.png)
+```
+
+---
+
+### Database Identification
+
+The database name was successfully identified using a UNION-based SQL Injection technique.
+
+**Screenshot Placeholder:**
+
+```markdown
+![Database Name Enumeration](images/database_name.png)
+```
+
+---
+
+### Table and Column Enumeration
+
+The database schema was enumerated to identify tables containing authentication data. The `users` table was identified as containing usernames and password hashes.
+
+Column enumeration revealed fields related to usernames and passwords.
+
+**Screenshot Placeholders:**
+
+```markdown
+![Table Enumeration](images/table_enum.png)
+![Column Enumeration](images/column_enum.png)
+```
+
+---
+
+### Credential Extraction
+
+Usernames and password hashes were successfully retrieved from the `users` table, including **Bob Smith’s account**.
+
+**Screenshot Placeholder:**
+
+```markdown
+![Credential Dump](images/credential_dump.png)
+```
+
+---
+
+### Step 3: Password Hash Cracking
+
+Bob Smith’s password hash was extracted and cracked using a password-cracking tool.
+
+**Result:**
+Bob Smith’s plaintext password was successfully recovered.
+
+**Screenshot Placeholders:**
+
+```markdown
+![Password Hash](images/password_hash.png)
+![Password Cracked](images/password_cracked.png)
+```
+
+---
+
+### Step 4: Accessing the Target System
+
+Using the recovered credentials, an SSH connection was established to the target system:
+
+```
+ssh smithy@192.168.0.10
+```
+
+A port scan confirmed that SSH was available on the target system.
+
+**Screenshot Placeholders:**
+
+```markdown
+![Nmap Scan](images/nmap_ssh.png)
+![SSH Login](images/ssh_login.png)
+```
+
+---
+
+### Step 5: Locating the Challenge 1 Code
+
+After logging in, directory contents were enumerated to locate the challenge file. The file containing the Challenge 1 code was identified and opened.
+
+**Result:**
+The file displayed the Challenge 1 flag/code.
+
+**Screenshot Placeholder:**
+
+```markdown
+![Challenge File Contents](images/challenge_flag.png)
+```
+
+---
+
+## Findings
+
+* DVWA was vulnerable to SQL Injection at low security
+* Improper input handling allowed full database enumeration
+* User credentials were exposed and password hashes recovered
+* Weak passwords enabled successful cracking
+* Compromised credentials allowed unauthorized system access
+
+---
+
+## Remediation: Preventing SQL Injection Attacks
+
+The following remediation techniques are recommended to prevent SQL Injection vulnerabilities:
+
+1. **Prepared Statements (Parameterized Queries)**
+2. **Principle of Least Privilege** for database accounts
+3. **Strict Input Validation and Sanitization**
+4. **Use of Stored Procedures**
+5. **Secure Error Handling and Logging**
+
+---
+
+## Ethical Considerations
+
+All activities were conducted:
+
+* Within an **authorized Cisco NetAcad lab**
+* Under a signed **Pentesting Agreement**
+* For **educational and defensive purposes only**
+* Without targeting real-world systems or users
+
+Unauthorized SQL Injection attacks are illegal and unethical.
+
+---
+
+## Reflection
+
+This challenge demonstrated how a single input validation flaw can lead to complete system compromise. The exercise reinforced the importance of secure coding practices and proactive vulnerability testing to protect applications from real-world attacks.
+
+---
+
+### ✅ If you want next:
+
+* I can **tighten wording** to match your other repos exactly
+* Add a **shorter reflection** if your instructor prefers concise writeups
+* Help with **Challenge 2 or 3** of the Capstone
+* Review your **entire capstone repo for grading readiness**
+
+Just tell me what you want to polish next.
